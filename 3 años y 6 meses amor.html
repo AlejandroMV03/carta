@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta de Amor - Alejandro</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(45deg, #ff6b9d, #ffc3e1, #ff9a9e, #fad0c4);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Corazones flotantes */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            color: rgba(255, 182, 193, 0.7);
+            font-size: 20px;
+            animation: floatUp 6s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 1;
+                transform: translateY(100vh) rotate(0deg);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100px) rotate(360deg);
+            }
+        }
+
+        .envelope-container {
+            position: relative;
+            z-index: 10;
+        }
+
+        .envelope {
+            width: 300px;
+            height: 200px;
+            background: linear-gradient(135deg, #fff, #f8f8f8);
+            border-radius: 10px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { 
+                box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 20px rgba(255, 105, 180, 0.3);
+            }
+            50% { 
+                box-shadow: 0 25px 50px rgba(0,0,0,0.4), 0 0 30px rgba(255, 105, 180, 0.6);
+                transform: translateY(-5px);
+            }
+        }
+
+        .envelope:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+        }
+
+        .envelope-top {
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-bottom: 100px solid #ff69b4;
+            position: absolute;
+            top: -50px;
+            left: 0;
+            border-radius: 10px 10px 0 0;
+            transition: all 0.5s ease;
+            transform-origin: bottom center;
+        }
+
+        .envelope.opened .envelope-top {
+            transform: rotateX(-180deg);
+            border-bottom-color: #ff1493;
+        }
+
+        .heart-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 60px;
+            color: #ff1493;
+            animation: heartbeat 2s ease-in-out infinite;
+            text-shadow: 0 0 20px rgba(255, 20, 147, 0.8);
+            z-index: 5;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        .letter {
+            position: absolute;
+            width: 400px;
+            height: 600px;
+            background: #fefefe;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0) rotateY(90deg);
+            border-radius: 15px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            padding: 30px;
+            overflow-y: auto;
+            z-index: 15;
+            border: 2px solid #ff69b4;
+        }
+
+        .letter.show {
+            transform: translate(-50%, -50%) scale(1) rotateY(0deg);
+            opacity: 1;
+        }
+
+        .letter-header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #ff69b4;
+            padding-bottom: 15px;
+        }
+
+        .letter-title {
+            font-family: 'Dancing Script', cursive;
+            font-size: 32px;
+            color: #ff1493;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .letter-from-to {
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .letter-content {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+            text-align: justify;
+            animation: typewriter 3s ease-in-out;
+        }
+
+        @keyframes typewriter {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: #ff69b4;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: #ff1493;
+            transform: rotate(90deg);
+        }
+
+        /* Partículas de amor */
+        .love-particle {
+            position: absolute;
+            pointer-events: none;
+            color: #ff69b4;
+            font-size: 12px;
+            animation: loveParticle 3s ease-out forwards;
+        }
+
+        @keyframes loveParticle {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(0);
+            }
+            50% {
+                opacity: 1;
+                transform: translate(0, -50px) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(0, -100px) scale(0);
+            }
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #ffd700;
+            border-radius: 50%;
+            animation: sparkle 2s linear infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        .instruction {
+            position: absolute;
+            bottom: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            animation: bounce 2s infinite;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-weight: 600;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            40% { transform: translateX(-50%) translateY(-10px); }
+            60% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .envelope {
+                width: 250px;
+                height: 170px;
+            }
+            
+            .envelope-top {
+                border-left-width: 125px;
+                border-right-width: 125px;
+                border-bottom-width: 85px;
+            }
+            
+            .letter {
+                width: 90%;
+                height: 80%;
+                padding: 20px;
+                font-size: 14px;
+            }
+            
+            .heart-center {
+                font-size: 45px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-hearts"></div>
+    
+    <div class="envelope-container">
+        <div class="envelope" id="envelope">
+            <div class="envelope-top"></div>
+            <div class="heart-center" id="heart">💖</div>
+        </div>
+        
+        <div class="instruction">
+            💕 Toca el corazón para abrir la carta 💕
+        </div>
+        
+        <div class="letter" id="letter">
+            <button class="close-btn" id="closeBtn">&times;</button>
+            <div class="letter-header">
+                <div class="letter-title">💌 Carta de Amor 💌</div>
+                <div class="letter-from-to">
+                    De: <strong>Alejandro</strong> 💕<br>
+                    Para: <strong>El amor de mi vida</strong> 💖
+                </div>
+            </div>
+             <div class="letter-content">
+                Holaaaaa mi amooooor 🥺❤️<br><br>
+                
+                Aaaaaaaaaaa ya sabemos que dia es hoy verdad mi amooor 🥺❤️<br><br>
+                
+                Hoy cumplimos un nuevoooo meeees mi amoooor aaaaaaaa, esto es algo muy bonito mi amoooooor 🥺❤️<br><br>
+                
+                Por que ? 🥺❤️<br><br>
+                
+                Esto es algo muy muy boniiiito porque cada mes que pasamos juntoooos es demasiado especial, muy importante para los dos 🥺❤️<br><br>
+                
+                Ya que nos vamos acercandooo a nuestra meta de cumplir 4 añoooos juntitoooos mi amooooor 🥺❤️<br><br>
+                
+                Aaaaaaaa enserioooooo me emociona tantoooooo saberlo, ya casi 4 añoooos de estar contigo, y se siente hermoso mi amoooor 🥺❤️<br><br>
+                
+                Quiero que sepaaass, que te amooooooooo demasiadoooooooo mi amoooooor, asiii con muchisimaaas pero muchisimaaaas o mi amooooor 🥺❤️<br><br>
+                
+                No olvideeees que ereees lo mejor de mi vidaaaa 🥺❤️<br><br>
+                
+                Que erees mi esposaaaaaaa 🥺❤️<br><br>
+                
+                Mi mujeeeeeeeeeeeer mi amooooor 🥺❤️<br><br>
+                
+                La mamá de nuestroooooos bebés mi amoooooor 🥺❤️<br><br>
+                
+                El amooooooor de mi vidaaaa 🥺❤️<br><br>
+                
+                Todooooooo mi amoooooor 🥺❤️<br><br>
+                
+                Y si mi amoooor lo eres todo para miiiiii y eso significa que solamente contigo quieroooo todoooo perooo todooo todooooo mi amoooooor aaaaaaa 🥺❤️<br><br>
+                
+                Eres lo mas importante de mi vida amoooor 🥺❤️<br><br>
+                
+                6 meseees juntoooos mas amoooor 🥺❤️<br><br>
+                
+                3 añooos y 6 meseeees amoooooor 🥺❤️<br><br>
+                
+                Enseriooo sientooooo bien bonitooooo estoooo mi amoooooor 🥺❤️<br><br>
+                
+                Me poneeeee feliiiz, ya que aaaaaa mira hasta donde hemos llegado amoor y esto aun sigue mi amoooooooor, ya que esto es aun nuestro principio ya que nos queda una larga vida juntooooos, eso quierooo yoooooo, tu quiereees esooo amooor ?🥺❤️<br><br>
+                
+                <strong style="color: #ff1493;">TE AMOOOOOOO MI AMOOOOOOR 🥺❤️</strong><br><br>
+                
+                <div style="text-align: center; font-size: 24px; color: #ff69b4; margin: 20px 0;">
+                T<br>
+                E<br>
+                E<br>
+                E<br>
+                E<br>
+                A<br>
+                M<br>
+                O<br>
+                O<br>
+                O<br>
+                O<br>
+                O<br>
+                O<br>
+                O<br>
+                M<br>
+                U<br>
+                C<br>
+                H<br>
+                O<br>
+                O<br>
+                O<br>
+                O<br>
+                O<br>
+                M<br>
+                I<br>
+                A<br>
+                M<br>
+                O<br>
+                O<br>
+                O<br>
+                O<br>
+                O<br>
+                O<br>
+                R<br>
+                🥺❤️
+                </div>
+                
+                Mi amoooor, se que hemos tenido momentos en los cuales discutimos varios dias, de los cuales tenemos males entendidos, en los que pensamos cosas que no son mi amooor, pero quiero que sepaas mi amooooor que nada de estos momentos dejaran de que yo te deje de amaaar ya que el amoooor que siento por ti es demasiadooooo amoooooor aaaaaaaaaaa y te lo digooo muuuy enserioooo amooor🥺❤️<br><br>
+                
+                Ninguna pareja es perfecta mi amooor, siempre abran discusiones, malos entendidos pero se que nosotros juntos haremos que esto sea lo mas perfecto que se pueda, se que costara trabajo por que nada es tan facil amooor, pero eso si se y confio en nosotros dos, en nuestra relaciooon amooor 🥺❤️<br><br>
+                
+                Te amoooooo enserioooo mi amooooooor 🥺❤️<br><br>
+                
+                Ereeees mi vidaaaaaaaaa 🥺❤️<br><br>
+                
+                Ay enseriooooo ya otro mes mi amooooooor 🥺❤️<br><br>
+                
+                llevamos 1399 dias, 22 horas y 38 minutooos juntoooooos amooooor 🥺❤️<br><br>
+                
+                y se siguen sumandooo dias a nuestra cuenta amoooor, enserio siento bonitoooo por que ver desde nuestro primer dia juntos, ver como se iban sumando dias, meses y ahora añooos amooor aaaaaaaaaaa 🥺❤️<br><br>
+                
+                Ereees lo mejor que me ha pasadoooo amooor 🥺❤️<br><br>
+                
+                Erees todoooo lo que quieroooo 🥺❤️<br><br>
+                
+                Y siempre seguiras siendo lo que quierooooo amooooooooor 🥺❤️<br><br>
+                
+                Veeeeeeen mi amooooor quierooo darteeeee muchoooooos besitooooooos 🥺❤️<br><br>
+                
+                Quieroooooo abrazarteeeee amooooor 🥺❤️<br><br>
+                
+                Quierooooo tenerte cerca de mi amooooor 🥺❤️<br><br>
+                
+                <strong style="color: #ff1493; font-size: 20px;">Te amoooooooooooo mi amooooooooooooooooooooooooooooooor 🥺❤️</strong><br><br>
+                
+                <strong style="color: #ff69b4; font-size: 18px;">3 añooooooooooos y 6 meseeeees mi amoooor 🥺❤️</strong><br><br>
+                
+                Ay que bonitoooo enseriooooooo 🥺❤️<br><br>
+                
+                <div style="text-align: center; font-size: 24px; color: #ff1493; margin: 20px 0;">
+                Bechitoooooooooooos 🥺❤️
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Crear corazones flotantes
+        function createFloatingHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '💕';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDelay = Math.random() * 3 + 's';
+            heart.style.fontSize = (Math.random() * 10 + 15) + 'px';
+            document.querySelector('.floating-hearts').appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 6000);
+        }
+        setInterval(createFloatingHeart, 800);
+
+        // Crear partículas brillantes
+        function createSparkles() {
+            for(let i = 0; i < 10; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.className = 'sparkle';
+                    sparkle.style.left = Math.random() * 100 + 'vw';
+                    sparkle.style.top = Math.random() * 100 + 'vh';
+                    sparkle.style.animationDelay = Math.random() * 2 + 's';
+                    document.body.appendChild(sparkle);
+                    
+                    setTimeout(() => {
+                        sparkle.remove();
+                    }, 2000);
+                }, i * 200);
+            }
+        }
+        setInterval(createSparkles, 3000);
+
+        // Funcionalidad del sobre y carta
+        const envelope = document.getElementById('envelope');
+        const heart = document.getElementById('heart');
+        const letter = document.getElementById('letter');
+        const closeBtn = document.getElementById('closeBtn');
+
+        function createLoveParticles(element) {
+            const particles = ['💕', '💖', '💗', '💘', '💝', '💞', '💟'];
+            for(let i = 0; i < 8; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.className = 'love-particle';
+                    particle.innerHTML = particles[Math.floor(Math.random() * particles.length)];
+                    particle.style.left = (Math.random() * 200 - 100) + 'px';
+                    particle.style.top = (Math.random() * 200 - 100) + 'px';
+                    element.appendChild(particle);
+                    
+                    setTimeout(() => {
+                        particle.remove();
+                    }, 3000);
+                }, i * 100);
+            }
+        }
+
+        function openLetter() {
+            envelope.classList.add('opened');
+            createLoveParticles(envelope);
+            
+            setTimeout(() => {
+                letter.classList.add('show');
+                document.querySelector('.instruction').style.display = 'none';
+                
+                if (navigator.vibrate) {
+                    navigator.vibrate([100, 50, 100]);
+                }
+            }, 500);
+        }
+
+        function closeLetter() {
+            letter.classList.add('closing');
+            
+            setTimeout(() => {
+                letter.classList.remove('show', 'closing');
+                envelope.classList.remove('opened');
+                document.querySelector('.instruction').style.display = 'block';
+                createLoveParticles(envelope);
+                
+                if (navigator.vibrate) {
+                    navigator.vibrate([50]);
+                }
+            }, 800);
+        }
+
+        // Eventos PC + móvil
+        heart.addEventListener('click', openLetter);
+        heart.addEventListener('touchstart', function(e){
+            e.preventDefault();
+            openLetter();
+        }, { passive: false });
+
+        closeBtn.addEventListener('click', closeLetter);
+        closeBtn.addEventListener('touchstart', function(e){
+            e.preventDefault();
+            closeLetter();
+        }, { passive: false });
+
+        // Efecto hover en corazón (solo PC)
+        heart.addEventListener('mouseenter', function() {
+            this.style.transform = 'translate(-50%, -50%) scale(1.3)';
+            this.style.filter = 'drop-shadow(0 0 20px #ff1493)';
+        });
+        heart.addEventListener('mouseleave', function() {
+            this.style.transform = 'translate(-50%, -50%) scale(1)';
+            this.style.filter = 'none';
+        });
+
+        // Crear corazones iniciales
+        for(let i = 0; i < 20; i++) {
+            setTimeout(createFloatingHeart, i * 300);
+        }
+    </script>
+</body>
+</html>
