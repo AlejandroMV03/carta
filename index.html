@@ -6,7 +6,7 @@
     <title>Carta de Amor - Alejandro</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
-        
+
         * {
             margin: 0;
             padding: 0;
@@ -51,14 +51,8 @@
         }
 
         @keyframes floatUp {
-            0% {
-                opacity: 1;
-                transform: translateY(100vh) rotate(0deg);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-100px) rotate(360deg);
-            }
+            0% { opacity: 1; transform: translateY(100vh) rotate(0deg); }
+            100% { opacity: 0; transform: translateY(-100px) rotate(360deg); }
         }
 
         .envelope-container {
@@ -206,7 +200,6 @@
             transform: rotate(90deg);
         }
 
-        /* Partículas de amor */
         .love-particle {
             position: absolute;
             pointer-events: none;
@@ -216,18 +209,9 @@
         }
 
         @keyframes loveParticle {
-            0% {
-                opacity: 1;
-                transform: translate(0, 0) scale(0);
-            }
-            50% {
-                opacity: 1;
-                transform: translate(0, -50px) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(0, -100px) scale(0);
-            }
+            0% { opacity: 1; transform: translate(0,0) scale(0); }
+            50% { opacity: 1; transform: translate(0,-50px) scale(1); }
+            100% { opacity: 0; transform: translate(0,-100px) scale(0); }
         }
 
         .sparkle {
@@ -240,7 +224,7 @@
         }
 
         @keyframes sparkle {
-            0%, 100% { opacity: 0; transform: scale(0); }
+            0%,100% { opacity: 0; transform: scale(0); }
             50% { opacity: 1; transform: scale(1); }
         }
 
@@ -258,34 +242,17 @@
         }
 
         @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+            0%,20%,50%,80%,100% { transform: translateX(-50%) translateY(0); }
             40% { transform: translateX(-50%) translateY(-10px); }
             60% { transform: translateX(-50%) translateY(-5px); }
         }
 
         /* Responsive */
         @media (max-width: 768px) {
-            .envelope {
-                width: 250px;
-                height: 170px;
-            }
-            
-            .envelope-top {
-                border-left-width: 125px;
-                border-right-width: 125px;
-                border-bottom-width: 85px;
-            }
-            
-            .letter {
-                width: 90%;
-                height: 80%;
-                padding: 20px;
-                font-size: 14px;
-            }
-            
-            .heart-center {
-                font-size: 45px;
-            }
+            .envelope { width: 250px; height: 170px; }
+            .envelope-top { border-left-width: 125px; border-right-width: 125px; border-bottom-width: 85px; }
+            .letter { width: 90%; height: 80%; padding: 20px; font-size: 14px; }
+            .heart-center { font-size: 45px; }
         }
     </style>
 </head>
@@ -298,9 +265,7 @@
             <div class="heart-center" id="heart">💖</div>
         </div>
         
-        <div class="instruction">
-            💕 Toca el corazón para abrir la carta 💕
-        </div>
+        <div class="instruction">💕 Toca el corazón para abrir la carta 💕</div>
         
         <div class="letter" id="letter">
             <button class="close-btn" id="closeBtn">&times;</button>
@@ -430,9 +395,8 @@
             </div>
         </div>
     </div>
-
     <script>
-        // Crear corazones flotantes
+        // Corazones flotantes
         function createFloatingHeart() {
             const heart = document.createElement('div');
             heart.className = 'heart';
@@ -441,16 +405,13 @@
             heart.style.animationDelay = Math.random() * 3 + 's';
             heart.style.fontSize = (Math.random() * 10 + 15) + 'px';
             document.querySelector('.floating-hearts').appendChild(heart);
-            
-            setTimeout(() => {
-                heart.remove();
-            }, 6000);
+            setTimeout(() => heart.remove(), 6000);
         }
         setInterval(createFloatingHeart, 800);
 
-        // Crear partículas brillantes
+        // Partículas brillantes
         function createSparkles() {
-            for(let i = 0; i < 10; i++) {
+            for(let i = 0; i < 10; i++){
                 setTimeout(() => {
                     const sparkle = document.createElement('div');
                     sparkle.className = 'sparkle';
@@ -458,95 +419,63 @@
                     sparkle.style.top = Math.random() * 100 + 'vh';
                     sparkle.style.animationDelay = Math.random() * 2 + 's';
                     document.body.appendChild(sparkle);
-                    
-                    setTimeout(() => {
-                        sparkle.remove();
-                    }, 2000);
-                }, i * 200);
+                    setTimeout(() => sparkle.remove(), 2000);
+                }, i*200);
             }
         }
         setInterval(createSparkles, 3000);
 
-        // Funcionalidad del sobre y carta
+        // Sobre y carta
         const envelope = document.getElementById('envelope');
         const heart = document.getElementById('heart');
         const letter = document.getElementById('letter');
         const closeBtn = document.getElementById('closeBtn');
 
         function createLoveParticles(element) {
-            const particles = ['💕', '💖', '💗', '💘', '💝', '💞', '💟'];
-            for(let i = 0; i < 8; i++) {
-                setTimeout(() => {
+            const particles = ['💕','💖','💗','💘','💝','💞','💟'];
+            for(let i=0;i<8;i++){
+                setTimeout(()=>{
                     const particle = document.createElement('div');
-                    particle.className = 'love-particle';
-                    particle.innerHTML = particles[Math.floor(Math.random() * particles.length)];
-                    particle.style.left = (Math.random() * 200 - 100) + 'px';
-                    particle.style.top = (Math.random() * 200 - 100) + 'px';
+                    particle.className='love-particle';
+                    particle.innerHTML=particles[Math.floor(Math.random()*particles.length)];
+                    particle.style.left=(Math.random()*200-100)+'px';
+                    particle.style.top=(Math.random()*200-100)+'px';
                     element.appendChild(particle);
-                    
-                    setTimeout(() => {
-                        particle.remove();
-                    }, 3000);
-                }, i * 100);
+                    setTimeout(()=>particle.remove(),3000);
+                },i*100);
             }
         }
 
-        function openLetter() {
+        function openLetter(){
             envelope.classList.add('opened');
             createLoveParticles(envelope);
-            
-            setTimeout(() => {
+            setTimeout(()=>{
                 letter.classList.add('show');
-                document.querySelector('.instruction').style.display = 'none';
-                
-                if (navigator.vibrate) {
-                    navigator.vibrate([100, 50, 100]);
-                }
-            }, 500);
+                document.querySelector('.instruction').style.display='none';
+                if(navigator.vibrate) navigator.vibrate([100,50,100]);
+            },500);
         }
 
-        function closeLetter() {
+        function closeLetter(){
             letter.classList.add('closing');
-            
-            setTimeout(() => {
-                letter.classList.remove('show', 'closing');
+            setTimeout(()=>{
+                letter.classList.remove('show','closing');
                 envelope.classList.remove('opened');
-                document.querySelector('.instruction').style.display = 'block';
+                document.querySelector('.instruction').style.display='block';
                 createLoveParticles(envelope);
-                
-                if (navigator.vibrate) {
-                    navigator.vibrate([50]);
-                }
-            }, 800);
+                if(navigator.vibrate) navigator.vibrate([50]);
+            },800);
         }
 
-        // Eventos PC + móvil
         heart.addEventListener('click', openLetter);
-        heart.addEventListener('touchstart', function(e){
-            e.preventDefault();
-            openLetter();
-        }, { passive: false });
-
+        heart.addEventListener('touchstart', e=>{e.preventDefault(); openLetter();},{passive:false});
         closeBtn.addEventListener('click', closeLetter);
-        closeBtn.addEventListener('touchstart', function(e){
-            e.preventDefault();
-            closeLetter();
-        }, { passive: false });
+        closeBtn.addEventListener('touchstart', e=>{e.preventDefault(); closeLetter();},{passive:false});
 
-        // Efecto hover en corazón (solo PC)
-        heart.addEventListener('mouseenter', function() {
-            this.style.transform = 'translate(-50%, -50%) scale(1.3)';
-            this.style.filter = 'drop-shadow(0 0 20px #ff1493)';
-        });
-        heart.addEventListener('mouseleave', function() {
-            this.style.transform = 'translate(-50%, -50%) scale(1)';
-            this.style.filter = 'none';
-        });
+        heart.addEventListener('mouseenter', ()=>{ heart.style.transform='translate(-50%, -50%) scale(1.3)'; heart.style.filter='drop-shadow(0 0 20px #ff1493)'; });
+        heart.addEventListener('mouseleave', ()=>{ heart.style.transform='translate(-50%, -50%) scale(1)'; heart.style.filter='none'; });
 
-        // Crear corazones iniciales
-        for(let i = 0; i < 20; i++) {
-            setTimeout(createFloatingHeart, i * 300);
-        }
+        for(let i=0;i<20;i++){ setTimeout(createFloatingHeart, i*300); }
     </script>
 </body>
 </html>
